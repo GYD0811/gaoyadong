@@ -1,0 +1,615 @@
+# OpenClash订阅转换配置
+# 全局配置
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7894
+allow-lan: true
+bind-address: "*"
+ipv6: false
+unified-delay: true
+tcp-concurrent: true
+log-level: warning
+find-process-mode: 'off'
+global-client-fingerprint: chrome
+keep-alive-idle: 600
+keep-alive-interval: 15
+disable-keep-alive: false
+
+# 外部控制
+external-controller: 0.0.0.0:9090
+secret: ""
+
+# 嗅探配置
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  force-domain:
+    - "+.v2ex.com"
+  skip-domain:
+    - "+.baidu.com"
+
+# TUN配置
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack: ["any:53", "tcp://any:53"]
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+
+# DNS配置
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  respect-rules: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 28.0.0.1/8
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - "rule-set:private_domain,cn_domain"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - "time.*.com"
+  default-nameserver:
+    - 10.10.10.252
+    - 114.114.114.114
+    - 223.5.5.5
+  proxy-server-nameserver:
+    - 10.10.10.252
+    - https://223.5.5.5/dns-query
+  nameserver:
+    - 10.10.10.252
+    - 114.114.114.114
+    - 223.5.5.5
+  fallback:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+
+# 代理组配置
+proxy-groups:
+  # 主要选择组
+  - name: "🚀 节点选择"
+    type: select
+    proxies:
+      - "♻️ 自动选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "♻️ 新加坡智能"
+      - "🔯 香港故转"
+      - "🔯 日本故转"
+      - "🇭🇰 香港节点"
+      - "🇯🇵 日本节点"
+      - "🇺🇲 美国节点"
+      - "🇩🇪 德国节点"
+      - "🇸🇬 新加坡节点"
+      - "🇰🇷 韩国节点"
+      - "🇬🇧 英国节点"
+      - "DIRECT"
+
+  # 服务分流组
+  - name: "📹 YouTube"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "♻️ 新加坡智能"
+      - "DIRECT"
+
+  - name: "🍀 Google"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "♻️ 新加坡智能"
+      - "DIRECT"
+
+  - name: "🤖 ChatGPT"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "🇺🇲 美国节点"
+      - "🇩🇪 德国节点"
+      - "DIRECT"
+
+  - name: "👨🏿‍💻 GitHub"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "DIRECT"
+
+  - name: "🐬 OneDrive"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "DIRECT"
+
+  - name: "🪟 Microsoft"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "DIRECT"
+
+  - name: "🎵 TikTok"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 新加坡智能"
+      - "🇯🇵 日本节点"
+      - "🇺🇲 美国节点"
+      - "🇸🇬 新加坡节点"
+
+  - name: "📲 Telegram"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "♻️ 新加坡智能"
+
+  - name: "🎥 NETFLIX"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 新加坡智能"
+      - "🇭🇰 香港节点"
+      - "🇯🇵 日本节点"
+      - "🇺🇲 美国节点"
+      - "🇸🇬 新加坡节点"
+
+  - name: "✈️ Speedtest"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 自动选择"
+      - "DIRECT"
+
+  - name: "💶 PayPal"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "🇺🇲 美国节点"
+      - "🇩🇪 德国节点"
+
+  - name: "📺 哔哩哔哩"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🇭🇰 香港节点"
+      - "🇯🇵 日本节点"
+
+  - name: "🎮 游戏平台"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 香港智能"
+      - "♻️ 日本智能"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "DIRECT"
+
+  - name: "📚 学术网站"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "♻️ 美国智能"
+      - "♻️ 德国智能"
+      - "🇺🇲 美国节点"
+      - "🇩🇪 德国节点"
+
+  - name: "🛒 购物网站"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🚀 节点选择"
+
+  - name: "🍎 Apple"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🚀 节点选择"
+      - "🇺🇲 美国节点"
+      - "🇭🇰 香港节点"
+
+  - name: "🎯 全球直连"
+    type: select
+    proxies:
+      - "DIRECT"
+      - "🚀 节点选择"
+
+  - name: "🐟 漏网之鱼"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - "DIRECT"
+
+  # 地区节点组
+  - name: "🇭🇰 香港节点"
+    type: select
+    use:
+      - all
+    filter: "(?i)港|hk|hongkong|hong kong"
+
+  - name: "🇯🇵 日本节点"
+    type: select
+    use:
+      - all
+    filter: "(?i)日|jp|japan"
+
+  - name: "🇺🇲 美国节点"
+    type: select
+    use:
+      - all
+    filter: "(?i)美|us|unitedstates|united states"
+
+  - name: "🇩🇪 德国节点"
+    type: select
+    use:
+      - all
+    filter: "(?i)德|de|germany"
+
+  - name: "🇸🇬 新加坡节点"
+    type: select
+    use:
+      - all
+    filter: "(?i)新|sg|singapore"
+
+  - name: "🇰🇷 韩国节点"
+    type: select
+    use:
+      - all
+    filter: "(?i)韩|kr|korea"
+
+  - name: "🇬🇧 英国节点"
+    type: select
+    use:
+      - all
+    filter: "(?i)英|uk|britain|united kingdom"
+
+  # 智能选择组
+  - name: "♻️ 香港智能"
+    type: smart
+    uselightgbm: true
+    collectdata: true
+    interval: 300
+    use:
+      - all
+    filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美|德)).)*$"
+    policy-priority: "DE:1.5;Premium:0.9;HK:0.7;MO:0.7;澳门:0.7"
+
+  - name: "♻️ 日本智能"
+    type: smart
+    uselightgbm: true
+    collectdata: true
+    interval: 300
+    use:
+      - all
+    filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美|德)).)*$"
+    policy-priority: "DE:1.5;Premium:0.9;HK:0.7;MO:0.7;澳门:0.7"
+
+  - name: "♻️ 美国智能"
+    type: smart
+    uselightgbm: true
+    collectdata: true
+    interval: 300
+    use:
+      - all
+    filter: "(?=.*(美|US|(?i)States|America))^((?!(港|台|日|韩|新|德)).)*$"
+    policy-priority: "DE:1.5;Premium:0.9;HK:0.7;MO:0.7;澳门:0.7"
+
+  - name: "♻️ 德国智能"
+    type: smart
+    uselightgbm: true
+    collectdata: true
+    interval: 300
+    use:
+      - all
+    filter: "(?=.*(德|DE|(?i)Germany))^((?!(港|台|日|韩|新|美)).)*$"
+    policy-priority: "DE:1.5;Premium:0.9;HK:0.7;MO:0.7;澳门:0.7"
+
+  - name: "♻️ 新加坡智能"
+    type: smart
+    uselightgbm: true
+    collectdata: true
+    interval: 300
+    use:
+      - all
+    filter: "(?=.*(新|SG|(?i)Singapore))^((?!(港|台|日|韩|美|德)).)*$"
+    policy-priority: "DE:1.5;Premium:0.9;HK:0.7;MO:0.7;澳门:0.7"
+
+  # 故障转移组
+  - name: "🔯 香港故转"
+    type: fallback
+    use:
+      - all
+    tolerance: 20
+    interval: 300
+    filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美|德)).)*$"
+
+  - name: "🔯 日本故转"
+    type: fallback
+    use:
+      - all
+    tolerance: 20
+    interval: 300
+    filter: "(?=.*(日|JP|(?i)Japan))^((?!(港|台|韩|新|美|德)).)*$"
+
+  # 自动选择
+  - name: "♻️ 自动选择"
+    type: url-test
+    use:
+      - all
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 20
+
+# 代理提供者（这部分会被订阅转换自动填充）
+proxy-providers:
+  all:
+    type: http
+    # 这里会被订阅转换自动替换为实际的订阅链接
+    url: ""
+    interval: 86400
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+
+# 分流规则
+rules:
+  # 广告屏蔽
+  - RULE-SET,reject,REJECT
+  
+  # 私有网络直连
+  - RULE-SET,private,DIRECT
+  
+  # 苹果服务
+  - RULE-SET,apple,🍎 Apple
+  
+  # AI服务
+  - RULE-SET,openai,🤖 ChatGPT
+  
+  # 开发者服务
+  - RULE-SET,github,👨🏿‍💻 GitHub
+  
+  # 谷歌服务
+  - RULE-SET,google,🍀 Google
+  - RULE-SET,youtube,📹 YouTube
+  
+  # 微软服务
+  - RULE-SET,microsoft,🪟 Microsoft
+  - RULE-SET,onedrive,🐬 OneDrive
+  
+  # 社交媒体
+  - RULE-SET,telegram,📲 Telegram
+  - RULE-SET,tiktok,🎵 TikTok
+  
+  # 流媒体
+  - RULE-SET,netflix,🎥 NETFLIX
+  - RULE-SET,bilibili,📺 哔哩哔哩
+  
+  # 游戏平台
+  - RULE-SET,games,🎮 游戏平台
+  
+  # 学术网站
+  - RULE-SET,scholar,📚 学术网站
+  
+  # 购物网站
+  - RULE-SET,shopping,🛒 购物网站
+  
+  # 支付服务
+  - RULE-SET,paypal,💶 PayPal
+  
+  # 测速服务
+  - RULE-SET,speedtest,✈️ Speedtest
+  
+  # 海外网站
+  - RULE-SET,proxy,🚀 节点选择
+  
+  # 中国网站
+  - RULE-SET,direct,🎯 全球直连
+  
+  # 中国IP
+  - RULE-SET,cncidr,🎯 全球直连
+  
+  # 局域网
+  - RULE-SET,lancidr,DIRECT
+  
+  # 最终规则
+  - MATCH,🐟 漏网之鱼
+
+# 规则集
+rule-providers:
+  reject:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
+    path: ./ruleset/reject.yaml
+    interval: 86400
+
+  private:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt"
+    path: ./ruleset/private.yaml
+    interval: 86400
+
+  apple:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt"
+    path: ./ruleset/apple.yaml
+    interval: 86400
+
+  openai:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml"
+    path: ./ruleset/openai.yaml
+    interval: 86400
+
+  github:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml"
+    path: ./ruleset/github.yaml
+    interval: 86400
+
+  google:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/google.txt"
+    path: ./ruleset/google.yaml
+    interval: 86400
+
+  youtube:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml"
+    path: ./ruleset/youtube.yaml
+    interval: 86400
+
+  microsoft:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml"
+    path: ./ruleset/microsoft.yaml
+    interval: 86400
+
+  onedrive:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OneDrive/OneDrive.yaml"
+    path: ./ruleset/onedrive.yaml
+    interval: 86400
+
+  telegram:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegram.txt"
+    path: ./ruleset/telegram.yaml
+    interval: 86400
+
+  tiktok:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok.yaml"
+    path: ./ruleset/tiktok.yaml
+    interval: 86400
+
+  netflix:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Netflix/Netflix.yaml"
+    path: ./ruleset/netflix.yaml
+    interval: 86400
+
+  bilibili:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BiliBili/BiliBili.yaml"
+    path: ./ruleset/bilibili.yaml
+    interval: 86400
+
+  games:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Game/Game.yaml"
+    path: ./ruleset/games.yaml
+    interval: 86400
+
+  scholar:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Scholar/Scholar.yaml"
+    path: ./ruleset/scholar.yaml
+    interval: 86400
+
+  shopping:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Shopping/Shopping.yaml"
+    path: ./ruleset/shopping.yaml
+    interval: 86400
+
+  paypal:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PayPal/PayPal.yaml"
+    path: ./ruleset/paypal.yaml
+    interval: 86400
+
+  speedtest:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml"
+    path: ./ruleset/speedtest.yaml
+    interval: 86400
+
+  proxy:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
+    path: ./ruleset/proxy.yaml
+    interval: 86400
+
+  direct:
+    type: http
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt"
+    path: ./ruleset/direct.yaml
+    interval: 86400
+
+  cncidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt"
+    path: ./ruleset/cncidr.yaml
+    interval: 86400
+
+  lancidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt"
+    path: ./ruleset/lancidr.yaml
+    interval: 86400
